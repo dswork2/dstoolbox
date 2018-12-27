@@ -1,3 +1,5 @@
+package com.devsarangi.dstools.lib.io;
+
 import com.google.common.base.Throwables;
 
 import java.io.IOException;
