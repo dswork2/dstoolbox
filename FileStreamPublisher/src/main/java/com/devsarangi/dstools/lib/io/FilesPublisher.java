@@ -5,44 +5,48 @@ import reactor.core.scheduler.Schedulers;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class FilesPublisher implements FilesScanner {
+public class FilesPublisher {
+    private final FileStreamUtil fileStreamUtil;
 
-    public Flux<File> getFilesInDir(String path) throws IOException {
-        return getFilesInDir(path, false);
+    public FilesPublisher() {
+        this(new FileStreamUtil());
     }
 
-    public Flux<File> getFilesInDir(String path, boolean includeDirs) throws IOException {
-        Stream<Path> fileStream = Files
-                .walk(Paths.get(path));
-        if (includeDirs == false) {
-            fileStream = fileStream
-                    .filter(path1 -> path1.toFile().isFile());
-        }
-
-        return getFluxFromStream(fileStream);
+    public FilesPublisher(FileStreamUtil fileStreamUtil) {
+        this.fileStreamUtil = fileStreamUtil;
     }
 
-    public Flux<File> getFileDtoInDir(String path, Function<File, ? extends Object> fileToDtoConverter) throws IOException {
-        Stream<Path> streamOfFiles = Files
-                .walk(Paths.get(path))
-                .filter(path1 -> path1.toFile().isFile());
-
-        return getFluxFromStream(streamOfFiles).doOnNext(file -> fileToDtoConverter.apply(file));
+    public Flux<File> publishFilesFrom(String path) throws IOException {
+        return publishFilesFrom(path, false);
     }
 
-
-    private Flux<File> getFluxFromStream(Stream<Path> streamOfFiles) {
-        return Flux.fromStream(
-                streamOfFiles
-                        .map(path -> path.toFile()))
-                .subscribeOn(Schedulers.elastic())
-                .onErrorStop()
-                .publishOn(Schedulers.elastic());
+    public Flux<File> publishFilesFrom(String rootDir, boolean includeDirs) throws IOException {
+        Stream<Path> fileStream = fileStreamUtil.pathStream(rootDir, includeDirs);
+        return fluxGenerator.apply(fileStream);
     }
+
+    private Function<Stream<Path>, Flux<File>> fluxGenerator =
+            pathStream ->
+                    Flux.fromStream(pathStream.map(path -> path.toFile()))
+//                            .doOnNext(v -> System.out.println("before publishOn: " + v.getAbsolutePath()))
+                            .publishOn(Schedulers.elastic())
+//                            .doOnNext(v -> System.out.println("after publishOn: " + v.getAbsolutePath()))
+                            .subscribeOn(Schedulers.elastic());
+
+
+    /***
+     * Flux.just("a", "b", "c") //this is where subscription triggers data production
+     *         //this is influenced by subscribeOn
+     *         .doOnNext(v -> System.out.println("before publishOn: " + Thread.currentThread().getName()))
+     *         .publishOn(Schedulers.elastic())
+     *         //the rest is influenced by publishOn
+     *         .doOnNext(v -> System.out.println("after publishOn: " + Thread.currentThread().getName()))
+     *         .subscribeOn(Schedulers.parallel())
+     *         .subscribe(v -> System.out.println("received " + v + " on " + Thread.currentThread().getName()));
+     *     Thread.sleep(5000);
+     */
 }
