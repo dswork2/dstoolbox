@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -21,7 +20,7 @@ public class FilesPublisher implements FilesScanner {
     public Flux<File> getFilesInDir(String path, boolean includeDirs) throws IOException {
         Stream<Path> fileStream = Files
                 .walk(Paths.get(path));
-        if (includeDirs) {
+        if (includeDirs == false) {
             fileStream = fileStream
                     .filter(path1 -> path1.toFile().isFile());
         }

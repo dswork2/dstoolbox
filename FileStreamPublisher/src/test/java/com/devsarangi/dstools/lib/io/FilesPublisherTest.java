@@ -16,38 +16,50 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class FilesPublisherTest extends FileHelper{
     FilesPublisher filesPublisher = null;
+    String tempDirAbsolutePath;
+    List<File> publishedFiles;
+
     @Before
     public void setup() {
         tempDir = Files.createTempDir();
-        if(tempDir.exists()){
-            tempDir.delete();
-            tempDir = Files.createTempDir();
-        }
+        tempDirAbsolutePath = tempDir.getAbsolutePath();
+        publishedFiles = new ArrayList<>();
+
         filesPublisher = new FilesPublisher();
     }
+
     @After
     public void cleanup(){
-        tempDir.delete();
+        if(tempDir.exists()) {
+            tempDir.delete();
+        }
+        publishedFiles.clear();
     }
 
     @Test
-    public void testFluxPublishing() throws IOException {
-        String tempDirAbsolutePath = tempDir.getAbsolutePath();
-        System.out.println(tempDirAbsolutePath);
+    public void testFluxPublishing_doesntIncludeDirectoriesByDefault() throws IOException {
+
         generateTestFiles(5);
         generateTestFiles(5,true);
-        List<File> publishedFiles = new ArrayList<>();
 
         filesPublisher
                 .getFilesInDir(tempDirAbsolutePath)
                 .subscribe(publishedFiles::add);
 
         assertThat(publishedFiles).hasSize(10);
-        publishedFiles.clear();
+    }
+
+    @Test
+    public void testFluxPublishing_includesDirectories() throws IOException {
+        generateTestFiles(5);
+        generateTestFiles(5,true);
+
         filesPublisher
                 .getFilesInDir(tempDirAbsolutePath, true)
                 .subscribe(publishedFiles::add);
+
         assertThat(publishedFiles).hasSize(12);
     }
+
 
 }
