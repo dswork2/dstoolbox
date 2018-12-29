@@ -1,6 +1,5 @@
 package com.ds.toolbox.filePublisher;
 
-import com.ds.toolbox.FileStreamUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,9 +17,9 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(JUnit4.class)
-public class FileStreamUtilTest extends FileHelper {
+public class FileStreamGeneratorTest extends FileHelper {
 
-    private FileStreamUtil fileStreamUtil = null;
+    private FileStreamGenerator fileStreamGenerator = null;
 
     private TemporaryFolder tempDir;
 
@@ -34,20 +33,21 @@ public class FileStreamUtilTest extends FileHelper {
         tempDir.create();
 
 
-        fileStreamUtil = new FileStreamUtil();
+        fileStreamGenerator = new FileStreamGenerator();
     }
 
     @After
     public void cleanup() throws IOException {
         cleanupDirs(tempDir);
     }
+
     @Test
     public void streamsAllFiles() throws IOException {
         List<File> testFiles = generateTestFiles(tempDir, 5);
 
         assertThat(testFiles).hasSize(5);
 
-        Stream<Path> pathStream = fileStreamUtil.pathStream(tempDir.getRoot().getAbsolutePath());
+        Stream<Path> pathStream = fileStreamGenerator.pathStream(tempDir.getRoot().getAbsolutePath());
         assertThat(pathStream.count()).isEqualTo(5L);
     }
 
@@ -56,12 +56,12 @@ public class FileStreamUtilTest extends FileHelper {
         List<File> generatedTestFiles = generateTestFiles(tempDir, 5);
         generatedTestFiles.addAll(generateTestFiles(tempDir, 5, true));
 
-        System.out.println("Generated : "+ generatedTestFiles.size()+" files");
+        System.out.println("Generated : " + generatedTestFiles.size() + " files");
 
-        Stream<Path> pathStream = fileStreamUtil.pathStream(tempDir.getRoot().getAbsolutePath(),true);
+        Stream<Path> pathStream = fileStreamGenerator.pathStream(tempDir.getRoot().getAbsolutePath(), true);
         List<File> testFiles = pathStream.map(path -> path.toFile()).collect(Collectors.toList());
         testFiles.stream().forEach(file ->
-                System.out.println("Got file"+ file.getAbsolutePath())
+                System.out.println("Got file" + file.getAbsolutePath())
         );
 
         assertThat(testFiles).hasSize(12);

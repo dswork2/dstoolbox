@@ -7,9 +7,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-public class FileStreamUtil {
+public class FileStreamGenerator {
 
-    public Stream<Path> walkPath(String rootDir, boolean includeDirs) throws IOException {
+    public static Stream<File> streamFilesFrom(String path, boolean includeDirs) throws IOException {
+        return new FileStreamGenerator().fileStream(path,includeDirs);
+    }
+
+    protected Stream<Path> walkPath(String rootDir, boolean includeDirs) throws IOException {
         System.out.println("Getting files from : " + rootDir);
         Stream<Path> pathWalkStream = Files.walk(Paths.get(rootDir));
         if (includeDirs == false) {
@@ -19,19 +23,19 @@ public class FileStreamUtil {
         return pathWalkStream;
     }
 
-    public Stream<Path> pathStream(String rootDir) throws IOException {
+    protected Stream<Path> pathStream(String rootDir) throws IOException {
         return pathStream(rootDir, false);
     }
 
-    public Stream<Path> pathStream(String rootDir, boolean includeDirs) throws IOException {
+    protected Stream<Path> pathStream(String rootDir, boolean includeDirs) throws IOException {
         return walkPath(rootDir, includeDirs);
     }
 
-    public Stream<File> fileStream(String rootDir) throws IOException {
+    protected Stream<File> fileStream(String rootDir) throws IOException {
         return fileStream(rootDir, false);
     }
 
-    public Stream<File> fileStream(String rootDir, boolean includeDirs) throws IOException {
+    protected Stream<File> fileStream(String rootDir, boolean includeDirs) throws IOException {
         Stream<Path> fileStream = walkPath(rootDir, includeDirs);
         return fileStream.map(path -> path.toFile());
     }

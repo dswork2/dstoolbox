@@ -9,23 +9,29 @@ import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class FilesPublisher {
-    private final FileStreamUtil fileStreamUtil;
+public class FilesFluxGenerator {
+    private final FileStreamGenerator fileStreamGenerator;
 
-    public FilesPublisher() {
-        this(new FileStreamUtil());
+    public FilesFluxGenerator() {
+        this(new FileStreamGenerator());
     }
 
-    public FilesPublisher(FileStreamUtil fileStreamUtil) {
-        this.fileStreamUtil = fileStreamUtil;
+    public FilesFluxGenerator(FileStreamGenerator fileStreamGenerator) {
+        this.fileStreamGenerator = fileStreamGenerator;
     }
 
-    public Flux<File> publishFilesFrom(String path) throws IOException {
+    public static Flux<File> generateFluxFrom(String fileScanPath, boolean includeDirectoryPaths) throws IOException {
+        FilesFluxGenerator generator = new FilesFluxGenerator();
+        return generator.publishFilesFrom(fileScanPath, includeDirectoryPaths);
+    }
+
+
+    protected Flux<File> publishFilesFrom(String path) throws IOException {
         return publishFilesFrom(path, false);
     }
 
     public Flux<File> publishFilesFrom(String rootDir, boolean includeDirs) throws IOException {
-        Stream<Path> fileStream = fileStreamUtil.pathStream(rootDir, includeDirs);
+        Stream<Path> fileStream = fileStreamGenerator.pathStream(rootDir, includeDirs);
         return fluxGenerator.apply(fileStream);
     }
 

@@ -1,6 +1,5 @@
 package com.ds.toolbox.filePublisher;
 
-import com.ds.toolbox.FileStreamUtil;
 import org.assertj.core.util.Lists;
 import org.junit.After;
 import org.junit.Before;
@@ -12,10 +11,9 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.assertj.core.api.Java6Assertions.fail;
 
-public class FilesPublisherTest extends FileHelper {
-    FilesPublisher filesPublisher = null;
+public class FilesFluxGeneratorTest extends FileHelper {
+    FilesFluxGenerator filesFluxGenerator = null;
     List<File> publishedFiles;
     String absolutePath;
 
@@ -31,8 +29,8 @@ public class FilesPublisherTest extends FileHelper {
         tempDir.create();
 
 
-        filesPublisher = new FilesPublisher(new FileStreamUtil());
-        absolutePath =tempDir.getRoot().getAbsolutePath();
+        filesFluxGenerator = new FilesFluxGenerator(new FileStreamGenerator());
+        absolutePath = tempDir.getRoot().getAbsolutePath();
         publishedFiles = Lists.newArrayList();
     }
 
@@ -45,10 +43,10 @@ public class FilesPublisherTest extends FileHelper {
     @Test
     public void testFluxPublishing_doesntIncludeDirectoriesByDefault() throws IOException, InterruptedException {
 
-        generateTestFiles(tempDir,5);
-        generateTestFiles(tempDir,5, true);
+        generateTestFiles(tempDir, 5);
+        generateTestFiles(tempDir, 5, true);
 
-        filesPublisher
+        filesFluxGenerator
                 .publishFilesFrom(absolutePath)
                 .subscribe(publishedFiles::add);
 
@@ -60,10 +58,10 @@ public class FilesPublisherTest extends FileHelper {
     public void testFluxPublishing_includesDirectories() throws IOException, InterruptedException {
         System.out.println("Created " + absolutePath);
 
-        generateTestFiles(tempDir,5);
-        generateTestFiles(tempDir,5, true);
+        generateTestFiles(tempDir, 5);
+        generateTestFiles(tempDir, 5, true);
 
-        filesPublisher
+        filesFluxGenerator
                 .publishFilesFrom(absolutePath, true)
                 .subscribe(publishedFiles::add);
         Thread.sleep(10L);
