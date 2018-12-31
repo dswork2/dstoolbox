@@ -1,6 +1,5 @@
 package com.ds.toolbox.fileGroup.config;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,11 @@ public class IntegrationTest {
     public IntegrationConfig.ScanningInputGateway inputGateway;
 
     @Test
-    public void contextLoads(){}
+    public void contextLoads() {
+    }
 
     @Test
-    public void canSeeFilesFromADirectory(){
+    public void canSeeFilesFromADirectory() {
         inputGateway.startScan("E:\\FTP-IN\\photos\\L_Folder\\ASync_ByDate\\2007\\March 03");
     }
 

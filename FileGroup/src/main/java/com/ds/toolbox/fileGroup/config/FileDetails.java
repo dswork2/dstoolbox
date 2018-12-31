@@ -1,18 +1,14 @@
 package com.ds.toolbox.fileGroup.config;
 
-import com.drew.metadata.Metadata;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-import javax.imageio.metadata.IIOMetadata;
 import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Data
 @ToString
 public class FileDetails {
     @Id
@@ -23,11 +19,9 @@ public class FileDetails {
 
     String fileName;
     String path;
-    boolean isImageFile;
-
+    boolean imageFileIndicator;
     long fileSizeInBytes;
 
     @Transient
     ImageMetadata metadata;
-
 }
