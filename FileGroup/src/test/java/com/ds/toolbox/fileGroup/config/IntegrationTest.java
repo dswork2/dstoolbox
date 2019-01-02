@@ -14,12 +14,7 @@ public class IntegrationTest {
     public IntegrationConfig.ScanningInputGateway inputGateway;
 
     @Test
-    public void contextLoads() {
-    }
-
-    @Test
     public void canSeeFilesFromADirectory() {
-        inputGateway.startScan("E:\\FTP-IN\\photos\\L_Folder\\ASync_ByDate\\2007\\March 03");
+        inputGateway.startScan("E:\\FTP-IN\\photos\\L_Folder\\ASync_ByDate\\2018\\March 07");
     }
-
 }
