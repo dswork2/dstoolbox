@@ -1,15 +1,17 @@
 package com.dstools.wstools.wsdatastreamproducer.config;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.handler.TextWebSocketHandler;
+import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
-public class DataRecieverWebsocketHandler extends TextWebSocketHandler {
+public class WSHandler extends AbstractWebSocketHandler {
 
     private List<WebSocketSession> sessionList = new CopyOnWriteArrayList<>();
 
@@ -20,9 +22,13 @@ public class DataRecieverWebsocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        for(WebSocketSession activeSession: sessionList){
-            activeSession.sendMessage(message);
-        }
+        System.out.println("New Binary Message Received");
+            session.sendMessage(message);
+    }
+
+    @Override
+    protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws IOException {
+        session.sendMessage(message);
     }
 
 }
