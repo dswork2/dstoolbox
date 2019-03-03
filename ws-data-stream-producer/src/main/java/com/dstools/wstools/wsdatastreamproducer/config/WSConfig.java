@@ -10,15 +10,10 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @Configuration
 @EnableWebSocket
 public class WSConfig implements WebSocketConfigurer {
-    private final WSHandler WSHandler;
-
-    public WSConfig(WSHandler WSHandler) {
-        this.WSHandler = WSHandler;
-    }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(WSHandler, "/data")
+        registry.addHandler(new WSHandler(), "/data")
                 .setAllowedOrigins("*");
     }
 
