@@ -1,0 +1,6 @@
+
+socket:
+  uri=data
+  binary:
+    message:
+      size: 1024000
