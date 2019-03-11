@@ -1,6 +1,8 @@
+logging.level:
+  root: DEBUG
 
-socket:
-  uri=data
-  binary:
-    message:
-      size: 1024000
+
+socket.uri: '/socket'
+socket.uri.controller: '/topic'
+socket.uri.publish: '/publish'
+socket.uri.publish.enabled: true
