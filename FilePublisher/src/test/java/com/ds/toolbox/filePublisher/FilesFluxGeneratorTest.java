@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-public class FilesFluxGeneratorTest extends FileHelper {
+public class FilesFluxGeneratorTest extends TestFileGenerator {
     FilesFluxGenerator filesFluxGenerator = null;
     List<File> publishedFiles;
     String absolutePath;

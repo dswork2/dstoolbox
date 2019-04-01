@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileHelper {
+public class TestFileGenerator {
     protected List<File> generateTestFiles(TemporaryFolder tempDir, int numberOfFiles) throws IOException {
         return generateTestFiles(tempDir, numberOfFiles, false);
     }

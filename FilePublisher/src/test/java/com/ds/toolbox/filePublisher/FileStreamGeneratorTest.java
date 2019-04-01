@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(JUnit4.class)
-public class FileStreamGeneratorTest extends FileHelper {
+public class FileStreamGeneratorTest extends TestFileGenerator {
 
     private FileStreamGenerator fileStreamGenerator = null;
 
