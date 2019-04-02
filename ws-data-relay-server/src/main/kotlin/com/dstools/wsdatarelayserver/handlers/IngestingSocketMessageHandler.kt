@@ -1,4 +1,4 @@
-package com.dstools.wsdatarelayserver.endpoints.config.ingestors
+package com.dstools.wsdatarelayserver.handlers
 
 import javafx.util.Pair
 import mu.KLogging
@@ -10,7 +10,6 @@ import java.time.Duration
 import java.time.Instant
 import java.util.concurrent.ConcurrentHashMap
 
-@Component
 class IngestingSocketMessageHandler : AbstractWebSocketHandler() {
 
     companion object : KLogging()
