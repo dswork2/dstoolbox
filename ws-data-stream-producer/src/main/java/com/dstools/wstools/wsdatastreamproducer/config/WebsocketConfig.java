@@ -16,20 +16,20 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private final String socketUri;
     private final SocketMessageHandler messageHandler;
-    private final String socketUriController;
-    private final String socketBroadcastUri;
-    private final Boolean socketBroadcastEnabled;
+    private final String applicationDestinationPrefix;
+    private final String brokerDestination;
+    private final Boolean enableSendToBroker;
 
     public WebsocketConfig(@Value("socket.uri") String socketUri,
                            SocketMessageHandler messageHandler,
-                           @Value("socket.uri.controller") String socketUriController,
-                           @Value("socket.uri.publish") String socketPublishUri,
-                           @Value("socket.uri.publish.enabled") String socketPublishEnabled) {
+                           @Value("socket.uri.applicationDestinationPrefix") String applicationDestinationPrefix,
+                           @Value("socket.uri.brokerDestination") String brokerDestination,
+                           @Value("socket.uri.sendToBroker.enabled") String sendToBroker) {
         this.socketUri = socketUri;
         this.messageHandler = messageHandler;
-        this.socketUriController = socketUriController;
-        this.socketBroadcastUri = socketPublishUri;
-        this.socketBroadcastEnabled = Boolean.getBoolean(socketPublishEnabled);
+        this.applicationDestinationPrefix = applicationDestinationPrefix;
+        this.brokerDestination = brokerDestination;
+        this.enableSendToBroker = Boolean.getBoolean(sendToBroker);
     }
 
     @Override
@@ -45,9 +45,9 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes(socketUriController);
-        if (socketBroadcastEnabled) {
-            registry.enableSimpleBroker(socketBroadcastUri);
+        registry.setApplicationDestinationPrefixes(applicationDestinationPrefix);
+        if (enableSendToBroker) {
+            registry.enableSimpleBroker(brokerDestination);
         }
     }
 
