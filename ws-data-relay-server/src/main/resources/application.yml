@@ -1,2 +1,4 @@
 
 server.port: 9082
+logging.level:
+  org.springframework: DEBUG

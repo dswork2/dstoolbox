@@ -1,21 +1,23 @@
 package com.dstools.wsdatarelayserver.controllers
 
+import mu.KLogging
 import org.springframework.messaging.handler.annotation.MessageMapping
+import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.messaging.simp.annotation.SubscribeMapping
 import org.springframework.stereotype.Controller
+import java.security.Principal
 
-@Controller("/scan")
+@Controller
 class ScanController{
 
-    @SubscribeMapping("/result")
-    fun scanResult() {
+    companion object : KLogging()
 
-    }
-
-    @MessageMapping("/start")
-    fun startScan(){
-
+    @MessageMapping("/scan.start")
+    fun startScan(@Payload scanData: NewScanData){
+        logger.info { "Starting scan at path : ${scanData.scanPath} " }
     }
 
 
 }
+
+data class NewScanData(val scanPath: String, val includeSubdirectories: Boolean)
