@@ -1,23 +1,24 @@
-<body>
+<main role="main">
 
-  <main role="main">
-
-    <div class="container">
-      <div class="jumbotron">
-        <h1 class="jumbotron-heading">Start New Scan</h1>
-        <form>
-          <div class="form-group">
-            <label for="scanPath">Scan Path</label>
-            <input type="text" class="form-control" id="scanPath" placeholder="Enter a path to start scan" />
-          </div>
-          <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="includeSubdirectories"
-              placeholder="Include SubDirectories" />
-            <label for="includeSubdirectories" class="form-check-label">Include Subdirectories</label>
-          </div>
-          <button type="submit" class="btn btn-primary">Start Scan</button>
-        </form>
-      </div>
+  <div class="container">
+    <div class="jumbotron">
+      <h1 class="jumbotron-heading">Start New Scan</h1>
+      <form>
+        <div class="form-group">
+          <label for="scanPath">Scan Path</label>
+          <input type="text" class="form-control" id="scanPath" placeholder="Enter a path to start scan" />
+        </div>
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="includeSubdirectories"
+            placeholder="Include SubDirectories" />
+          <label for="includeSubdirectories" class="form-check-label">Include Subdirectories</label>
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="onStartScan()">Start Scan</button>
+      </form>
     </div>
-  </main> 
-</body>
+  </div>
+  <div class="container-fluiud">
+    <app-files></app-files>
+  </div>
+</main>
+
