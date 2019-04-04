@@ -11,10 +11,13 @@ import { map } from 'rxjs/operators';
 })
 export class FilesComponent implements OnInit, OnDestroy {
 
+  receivedBinaryFiles: Array<any> = [];
+// receivedFiles: Array<FileEvent> = [];
   public receivedFiles: any[] = [];
   topicSubscription: Subscription = null;
   public connectionStatus$: Observable<string>;
   public noFilesRecievedMessage = 'No Files received';
+  imageToShow: any;
 
   constructor(private rxStompService: RxStompService) {
     this.connectionStatus$ = this.rxStompService.connectionState$.pipe(map((state) => {
@@ -23,7 +26,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.topicSubscription = this.rxStompService.watch('/inbound.broker')
+    this.topicSubscription = this.rxStompService.watch('/publish')
     .subscribe((message) => {
       console.log('Received message : ${message}');
       this.receivedFiles.push(message);
@@ -32,4 +35,21 @@ export class FilesComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.topicSubscription.unsubscribe();
   }
+
+  createImageFromBlob(image: Blob) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      this.imageToShow = reader.result;
+      this.receivedBinaryFiles.push(this.imageToShow);
+    }, false);
+
+    if (image) {
+      reader.readAsBinaryString(image);
+    }
+   }
 }
+export interface FileEvent {
+  path: string;
+  sessionId: string;
+}
+

@@ -28,10 +28,9 @@ export class ScanComponent implements OnInit {
       const message = 'Starting scan at path : ' + JSON.stringify(this.newScanForm.value);
       console.log(message);
       this.rxStompService.publish({
-        destination: '/inbound.app/scan.start',
+        destination: '/app/scan.start',
         body: JSON.stringify(this.newScanForm.value)
       });
     }
-
   }
 }

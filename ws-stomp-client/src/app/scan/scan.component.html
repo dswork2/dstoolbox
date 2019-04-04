@@ -6,35 +6,32 @@
       <form [formGroup]="newScanForm" (ngSubmit)="onStartScan()">
         <div class="form-group">
           <label for="scanPath">Scan Path</label>
-          <input type="text" id="scanPath" name="scanPath"
-                  class="form-control"
-                  formControlName="scanPath"
-                  placeholder="Enter a path to start scan" 
-                  required aria-required="true"/>
+          <input type="text" id="scanPath" name="scanPath" class="form-control" formControlName="scanPath"
+            placeholder="Enter a path to start scan" required aria-required="true" />
         </div>
         <div class="form-group form-check">
-          <input type="checkbox"  id="includeSubdirectories" name="includeSubdirectories"
-                class="form-control" 
-                formControlName="includeSubdirectories" />
+          <input type="checkbox" id="includeSubdirectories" name="includeSubdirectories" class="form-control"
+            formControlName="includeSubdirectories" />
           <label for="includeSubdirectories">Include Subdirectories</label>
         </div>
 
-        <div *ngIf="submitted && newScanForm.controls['scanPath'].invalid" 
-              class="alert alert-danger">
-        
-        <div *ngIf="submitted && newScanForm.controls['scanPath'].errors.required">
-          Scan Path is required.
-        </div>
+        <div *ngIf="submitted && newScanForm.controls['scanPath'].invalid" class="alert alert-danger">
 
-      </div>
+          <div *ngIf="submitted && newScanForm.controls['scanPath'].errors.required">
+            Scan Path is required.
+          </div>
+
+        </div>
         <button type="submit" class="btn btn-primary">Start Scan</button>
       </form>
     </div>
   </div>
-  <div class="container-fluiud">
+  <div class="container-fluid">
     <app-files></app-files>
   </div>
 </main>
 
-<pre>{{newScanForm.value | json}}</pre>
-<pre>Is Valid :{{newScanForm.valid }}</pre>
+<div class="container-fluid">
+  <pre>{{newScanForm.value | json}}</pre>
+  <pre>Is Valid :{{newScanForm.valid }}</pre>
+</div>

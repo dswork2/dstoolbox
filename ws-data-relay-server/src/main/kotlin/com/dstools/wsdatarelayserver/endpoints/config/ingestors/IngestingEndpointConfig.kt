@@ -11,10 +11,10 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 class IngestingEndpointConfig : WebSocketMessageBrokerConfigurer {
 
 
-    private val INBOUND_BROKER_DESTINATION = "/inbound.broker"
-    private val INBOUND_APP_DESTINATION = "/inbound.app"
+    private val INBOUND_BROKER_DESTINATION = "/publish"
+    private val INBOUND_APP_DESTINATION = "/app"
 
-    private val INBOUND_STOMP_ENDPOINT = "/inbound.ws"
+    private val INBOUND_STOMP_ENDPOINT = "/client"
 
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint(INBOUND_STOMP_ENDPOINT)
