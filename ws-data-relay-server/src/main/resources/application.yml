@@ -1,4 +1,5 @@
 
 server.port: 9082
 logging.level:
-  org.springframework: DEBUG
+  com.dstools: DEBUG
+  org.springframework: INFO

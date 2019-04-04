@@ -26,9 +26,9 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.topicSubscription = this.rxStompService.watch('/publish')
+    this.topicSubscription = this.rxStompService.watch('/publish/scan.result')
     .subscribe((message) => {
-      console.log('Received message : ${message}');
+      console.log('Received message : '+ JSON.stringify(message));
       this.receivedFiles.push(message);
     });
   }
