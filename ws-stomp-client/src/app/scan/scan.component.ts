@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RxStompService } from '@stomp/ng2-stompjs';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-scan',
@@ -8,23 +8,22 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
   styleUrls: ['./scan.component.scss']
 })
 export class ScanComponent implements OnInit {
-  scanStartPath = '';
   newScanForm: FormGroup;
   scanPath: FormControl;
   includeSubdirectories: FormControl;
+  submitted = false;
 
-  constructor(private rxStompService: RxStompService) { }
+  constructor(private rxStompService: RxStompService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.scanPath = new FormControl('', [Validators.required]);
-    this.includeSubdirectories = new FormControl();
-
-    this.newScanForm = new FormGroup({
-      scanPath: this.scanPath,
-      includeSubdirectories: this.includeSubdirectories,
+    this.newScanForm = this.formBuilder.group({
+      scanPath: ['', Validators.required],
+      includeSubdirectories: [null],
     });
   }
+
   onStartScan() {
+    this.submitted = true;
     if (this.newScanForm.valid) {
       const message = 'Starting scan at path : ' + JSON.stringify(this.newScanForm.value);
       console.log(message);
