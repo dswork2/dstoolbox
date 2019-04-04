@@ -1,4 +1,4 @@
-package com.dstools.wsdatarelayserver
+package com.dstools.filepublisher
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

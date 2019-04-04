@@ -1,4 +1,4 @@
-package com.dstools.wsdatarelayserver.controllers
+package com.dstools.filepublisher.ws.controllers
 
 import mu.KLogging
 import org.springframework.messaging.handler.annotation.MessageMapping

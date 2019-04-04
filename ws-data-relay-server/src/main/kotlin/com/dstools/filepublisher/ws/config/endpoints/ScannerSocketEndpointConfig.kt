@@ -1,4 +1,4 @@
-package com.dstools.wsdatarelayserver.endpoints.config.ingestors
+package com.dstools.filepublisher.ws.config.endpoints
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
@@ -8,7 +8,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-class IngestingEndpointConfig : WebSocketMessageBrokerConfigurer {
+class ScannerSocketEndpointConfig : WebSocketMessageBrokerConfigurer {
 
 
     private val INBOUND_BROKER_DESTINATION = "/publish"

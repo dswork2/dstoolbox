@@ -3,4 +3,4 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'ws-data-relay-server'
+rootProject.name = 'file-publisher'
